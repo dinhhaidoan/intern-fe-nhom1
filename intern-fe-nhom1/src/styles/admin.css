@@ -1,0 +1,97 @@
+:root {
+  --bg: #f6f8fb;
+  --panel: #ffffff;
+  --muted: #6b7280;
+  --text: #0f172a;
+  --accent: #2563eb;         /* xanh dương doanh nghiệp */
+  --border: #e5e7eb;
+  --chip: #eef2ff;
+  --shadow: 0 6px 18px rgba(2, 6, 23, .06);
+}
+
+/* Dark theme (tùy chọn) */
+:root[data-theme="dark"]{
+  --bg: #0f172a;
+  --panel: #0b1220;
+  --muted:#94a3b8;
+  --text:#e5e7eb;
+  --accent:#22d3ee;
+  --border:#1f2937;
+  --chip:#0f172a;
+  --shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+
+.admin-wrap{
+  display:grid; grid-template-columns: 260px 1fr; min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  padding:18px; position:sticky; top:0; height:100vh;
+}
+.sidebar .logo{ font-weight:700; letter-spacing:.2px; margin:4px 0 14px }
+.nav{ display:flex; flex-direction:column; gap:6px }
+.nav a{
+  display:flex; gap:10px; align-items:center;
+  padding:10px 12px; border-radius:10px;
+  color:var(--muted); text-decoration:none; border:1px solid transparent;
+}
+.nav a:hover{ background:var(--chip); color:var(--text) }
+.nav a.active{
+  background: var(--chip);
+  border-color: #c7d2fe40;
+  color: var(--text); font-weight:600;
+}
+
+/* HEADER */
+.header{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 20px; position:sticky; top:0; z-index:10;
+  background:var(--panel); border-bottom:1px solid var(--border);
+}
+.breadcrumbs{ display:flex; gap:8px; align-items:center; color:var(--muted); font-size:14px }
+.header .search{
+  padding:10px 12px; border-radius:10px; border:1px solid var(--border);
+  background:#fff0; color:var(--text); min-width:260px; outline:none;
+}
+.header .actions{ display:flex; align-items:center; gap:12px }
+
+/* CONTENT */
+.content{ padding:20px; }
+.card{
+  background:var(--panel); border:1px solid var(--border);
+  border-radius:14px; padding:16px; box-shadow: var(--shadow);
+}
+.grid{ display:grid; gap:16px }
+.grid.cols-3{ grid-template-columns: repeat(3, minmax(0,1fr)); }
+
+/* BUTTON / CHIP */
+.btn{
+  padding:8px 12px; border-radius:10px; border:1px solid var(--border);
+  background:#fff0; cursor:pointer;
+}
+.btn-primary{ background:var(--accent); color:white; border-color:transparent }
+.chip{ background:var(--chip); padding:4px 8px; border-radius:999px; font-size:12px }
+
+/* Responsive */
+@media (max-width: 1024px){
+  .admin-wrap{ grid-template-columns: 84px 1fr }
+  .sidebar .label{ display:none }
+  .grid.cols-3{ grid-template-columns: 1fr 1fr }
+}
+@media (max-width: 640px){
+  .grid.cols-3{ grid-template-columns: 1fr }
+  .header .search{ display:none }
+}
