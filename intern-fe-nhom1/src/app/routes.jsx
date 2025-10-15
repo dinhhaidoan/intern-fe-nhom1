@@ -3,7 +3,10 @@ import AdminLayout from "@/layouts/AdminLayout";
 import DashboardPage from "@/pages/admin/DashboardPage";
 import UsersPage from "@/pages/admin/UsersPage";
 import SettingsPage from "@/pages/admin/SettingsPage";
-import OrdersPage from "@/pages/admin/OrdersPage";   // NEW
+import OrdersPage from "@/pages/admin/OrdersPage";   
+import PromotionsPage from "@/pages/admin/PromotionsPage";
+import ReviewsPage from "@/pages/admin/ReviewsPage";
+
 
 export const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/admin" replace /> },
@@ -15,6 +18,9 @@ export const router = createBrowserRouter([
       { path: "orders", element: <OrdersPage /> },    // NEW
       { path: "users", element: <UsersPage /> },
       { path: "settings", element: <SettingsPage /> },
+      { path: "promotions", element: <PromotionsPage /> },
+      { path: "reviews", element: <ReviewsPage /> },
+
     ],
   },
 ]);
