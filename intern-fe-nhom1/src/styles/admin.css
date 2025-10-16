@@ -372,3 +372,153 @@ body{
   .reviews-page .rv-content{ max-width:360px }
   .reviews-page .reviews-toolbar .search{ min-width:200px }
 }
+/* --- FORM STYLE mềm mại hơn --- */
+.modal .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 28px;
+  align-items: start;
+}
+
+/* Input, Select, Textarea */
+.modal .form-grid input,
+.modal .form-grid select {
+  width: 100%;
+  font-size: 0.95rem;
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;          /* Bo tròn mềm hơn */
+  background: #fff;
+  transition: all 0.15s ease-in-out;
+}
+
+.modal .form-grid input:focus,
+.modal .form-grid select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+/* Label */
+.modal .form-grid label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+/* Pills */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pill {
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  background: #fff;
+  transition: 0.15s;
+}
+
+.pill:hover {
+  background: #f3f4f6;
+}
+
+.pill.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 500;
+}
+
+
+.form-grid .full.flex {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+
+.form-grid .full.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 500;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 18px;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  background: #1e40af;
+}
+
+button.btn {
+  border-radius: 10px;
+}
+
+
+.modal .header {
+  padding: 20px 24px 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modal .body {
+  padding: 24px 26px;
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: 32px; 
+  margin-top: 14px;
+}
+
+.switch-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  font-size: 0.92rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+
+.switch-row input[type="checkbox"] {
+  margin: 0;
+  vertical-align: middle;
+}
+
+
+table.pretty td,
+table.pretty th {
+  padding: 12px 16px; 
+}
+
+table.pretty td {
+  line-height: 1.5; 
+}
+
+table.pretty tr:not(:last-child) {
+  border-bottom: 1px solid #e5e7eb; 
+}
+
+
+table.pretty th {
+  letter-spacing: 0.3px;
+  font-weight: 600;
+}

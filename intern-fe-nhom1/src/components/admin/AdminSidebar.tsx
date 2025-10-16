@@ -6,6 +6,7 @@ const items = [
   { label: "Người dùng", path: "/admin/users", icon: "👥" },
   { label: "Khuyến mãi", path: "/admin/promotions", icon: "🏷️" },
   { label: "Đánh giá", path: "/admin/reviews", icon: "⭐" },
+  { label: "Vận chuyển", path: "/admin/shipping", icon: "🚚" }, 
   { label: "Cài đặt", path: "/admin/settings", icon: "⚙️" },
 ];
 

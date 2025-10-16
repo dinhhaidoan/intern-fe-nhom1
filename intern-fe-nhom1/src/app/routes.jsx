@@ -6,6 +6,7 @@ import SettingsPage from "@/pages/admin/SettingsPage";
 import OrdersPage from "@/pages/admin/OrdersPage";   
 import PromotionsPage from "@/pages/admin/PromotionsPage";
 import ReviewsPage from "@/pages/admin/ReviewsPage";
+import CarriersPage from "@/pages/admin/CarriersPage";
 
 
 export const router = createBrowserRouter([
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
       { path: "settings", element: <SettingsPage /> },
       { path: "promotions", element: <PromotionsPage /> },
       { path: "reviews", element: <ReviewsPage /> },
+      { path: "/admin/shipping", element: <CarriersPage /> },
 
     ],
   },
