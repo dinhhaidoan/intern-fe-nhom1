@@ -1,0 +1,41 @@
+
+/* Toast animation */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+/* Or if using Tailwind config, add to tailwind.config.js: */
+/*
+module.exports = {
+  theme: {
+    extend: {
+      keyframes: {
+        'slide-in': {
+          'from': {
+            transform: 'translateX(100%)',
+            opacity: '0',
+          },
+          'to': {
+            transform: 'translateX(0)',
+            opacity: '1',
+          },
+        },
+      },
+      animation: {
+        'slide-in': 'slide-in 0.3s ease-out',
+      },
+    },
+  },
+}
+*/
