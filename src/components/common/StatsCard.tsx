@@ -1,5 +1,5 @@
 // components/common/StatsCard.tsx
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 interface StatsCardProps {
   label: string;

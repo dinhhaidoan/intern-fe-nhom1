@@ -1,5 +1,5 @@
 // components/admin/DashboardStats.tsx
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { StatsCard } from '../common/StatsCard';
 
 interface DashboardStatsProps {

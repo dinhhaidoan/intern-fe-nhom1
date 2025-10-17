@@ -1,5 +1,5 @@
 // components/admin/UserTable.tsx 
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { Table } from '../common/Table';
 import type { User } from '../../types';
 

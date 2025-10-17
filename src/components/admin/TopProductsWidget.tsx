@@ -1,5 +1,5 @@
 // components/admin/TopProductsWidget.tsx
-import React, { memo } from 'react';
+import { memo } from 'react';
 import type { Product } from '../../types';
 
 interface TopProductsWidgetProps {

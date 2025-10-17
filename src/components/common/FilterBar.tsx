@@ -1,5 +1,5 @@
 // components/common/FilterBar.tsx
-import React, { memo } from 'react';
+import { memo } from 'react';
 
 interface FilterOption {
   label: string;

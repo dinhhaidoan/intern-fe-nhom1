@@ -1,5 +1,5 @@
 // components/common/ConfirmModal.tsx
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { Modal } from './Modal';
 
 interface ConfirmModalProps {

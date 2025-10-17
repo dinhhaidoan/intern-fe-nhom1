@@ -1,5 +1,5 @@
 // components/admin/OrderDetailModal.tsx
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { Modal } from '../common/Modal';
 import type { Order } from '../../types';
 

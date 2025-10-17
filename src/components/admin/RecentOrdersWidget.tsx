@@ -1,5 +1,5 @@
 // components/admin/RecentOrdersWidget.tsx
-import React, { memo } from 'react';
+import { memo } from 'react';
 import type { Order } from '../../types';
 
 interface RecentOrdersWidgetProps {

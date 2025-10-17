@@ -1,5 +1,4 @@
-// components/admin/CategoryTable.tsx
-import React, { memo, useCallback } from 'react';
+import { memo } from 'react';
 import { Table } from '../common/Table';
 import type { Category } from '../../types';
 
