@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
 * {
   box-sizing: border-box;
@@ -41,3 +41,19 @@ body {
   bottom: 0;
   left: 0;
 }
+
+/* dark-mode overrides (apply when .dark is set on documentElement) */
+.dark body {
+  background-color: #0b1220;
+  color: #e5e7eb;
+}
+.dark .bg-white { background-color: #0f1724 !important; }
+.dark .bg-gray-50 { background-color: #07111b !important; }
+.dark .text-gray-900, .dark .text-gray-800 { color: #f8fafc !important; }
+.dark .text-gray-700, .dark .text-gray-600, .dark .text-gray-500, .dark .text-gray-400 { color: #cbd5e1 !important; }
+.dark .border-gray-200 { border-color: #374151 !important; }
+.dark .bg-blue-50 { background-color: rgba(59,130,246,0.06) !important; }
+.dark .dark\:bg-gray-800 { background-color: #1f2937 !important; }
+.dark .dark\:text-white { color: #fff !important; }
+.dark .bg-gray-800 { background-color: #1f2937 !important; }
+.dark .rounded-lg { /* ensure card contrast */ box-shadow: none; }
