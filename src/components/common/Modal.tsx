@@ -7,6 +7,7 @@ interface ModalProps {
   title: string;
   children: React.ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  backdrop?: boolean; 
 }
 
 export const Modal: React.FC<ModalProps> = ({ 
@@ -14,7 +15,8 @@ export const Modal: React.FC<ModalProps> = ({
   onClose, 
   title, 
   children,
-  size = 'md' 
+  size = 'md',
+  backdrop = true
 }) => {
   if (!isOpen) return null;
 
@@ -27,7 +29,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      className={`fixed inset-0 flex items-center justify-center z-50 p-4 ${backdrop ? 'bg-black bg-opacity-50' : ''}`}
       onClick={onClose}
     >
       <div 

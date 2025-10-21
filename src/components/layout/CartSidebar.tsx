@@ -2,16 +2,22 @@ import { FiX, FiPlus, FiMinus, FiTrash2 } from 'react-icons/fi';
 import { useCartStore } from '../../stores/cartStore';
 import { useUIStore } from '../../stores/uiStore';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function CartSidebar() {
   const { items, total, removeItem, updateQuantity } = useCartStore();
   const { cartOpen, setCartOpen } = useUIStore();
 
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmProductId, setConfirmProductId] = useState<number | null>(null);
+  const [confirmProductTitle, setConfirmProductTitle] = useState<string>('');
+
   if (!cartOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setCartOpen(false)} />
+  <>
+  <div className="fixed inset-0 z-60 overflow-hidden">
+      <div className="absolute inset-0 bg-transparent" onClick={() => setCartOpen(false)} />
       
       <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl">
         <div className="flex h-full flex-col">
@@ -54,7 +60,15 @@ export default function CartSidebar() {
                       
                       <div className="flex items-center mt-2 space-x-2">
                         <button
-                          onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                          onClick={() => {
+                            if (item.quantity > 1) {
+                              updateQuantity(item.product.id, item.quantity - 1);
+                            } else {
+                              setConfirmProductId(item.product.id);
+                              setConfirmProductTitle(item.product.title);
+                              setConfirmOpen(true);
+                            }
+                          }}
                           className="p-1 rounded-md border border-gray-300 hover:bg-gray-100"
                         >
                           <FiMinus size={12} />
@@ -73,7 +87,11 @@ export default function CartSidebar() {
                         ${(item.product.price * item.quantity).toFixed(2)}
                       </p>
                       <button
-                        onClick={() => removeItem(item.product.id)}
+                        onClick={() => {
+                          setConfirmProductId(item.product.id);
+                          setConfirmProductTitle(item.product.title);
+                          setConfirmOpen(true);
+                        }}
                         className="mt-1 text-red-500 hover:text-red-700"
                       >
                         <FiTrash2 size={16} />
@@ -109,6 +127,36 @@ export default function CartSidebar() {
           )}
         </div>
       </div>
-    </div>
+      </div>
+    {confirmOpen && (
+      <div className="fixed inset-0 z-70 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+          <div className="px-6 py-4 border-b">
+            <h3 className="text-lg font-semibold">Xóa sản phẩm</h3>
+          </div>
+          <div className="p-6">
+            <p className="text-sm text-gray-600 mb-4">Số lượng sản phẩm sẽ là 0. Bạn có chắc muốn xóa "{confirmProductTitle}" khỏi giỏ hàng?</p>
+            <div className="flex gap-2 pt-4 border-t border-gray-200">
+              <button
+                onClick={() => setConfirmOpen(false)}
+                className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 transition-colors"
+              >
+                Hủy
+              </button>
+              <button
+                onClick={() => {
+                  if (confirmProductId != null) removeItem(confirmProductId);
+                  setConfirmOpen(false);
+                }}
+                className="flex-1 px-4 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Xóa
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   );
 }

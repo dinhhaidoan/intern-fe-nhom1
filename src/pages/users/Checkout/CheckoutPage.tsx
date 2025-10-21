@@ -39,6 +39,30 @@ export default function CheckoutPage() {
     cardName: ''
   });
 
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateStep1 = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Vui lòng nhập email hợp lệ';
+    }
+    if (!formData.firstName) newErrors.firstName = 'Vui lòng nhập họ';
+    if (!formData.lastName) newErrors.lastName = 'Vui lòng nhập tên';
+    if (!formData.address) newErrors.address = 'Vui lòng nhập địa chỉ';
+    if (!formData.city) newErrors.city = 'Vui lòng nhập thành phố';
+    if (!formData.postalCode) newErrors.postalCode = 'Vui lòng nhập mã bưu điện';
+    if (!formData.phone || formData.phone.length < 6) newErrors.phone = 'Vui lòng nhập số điện thoại hợp lệ';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleContinue = () => {
+    if (validateStep1()) {
+      setStep(2);
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -151,6 +175,7 @@ export default function CheckoutPage() {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="your@email.com"
                       />
+                      {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                     </div>
 
                     <h2 className="text-xl font-semibold text-gray-900 pt-6">Địa chỉ giao hàng</h2>
@@ -168,6 +193,7 @@ export default function CheckoutPage() {
                           onChange={handleInputChange}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                         />
+                        {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -181,6 +207,7 @@ export default function CheckoutPage() {
                           onChange={handleInputChange}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                         />
+                        {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
                       </div>
                     </div>
 
@@ -197,6 +224,7 @@ export default function CheckoutPage() {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="Số nhà, tên đường"
                       />
+                      {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -212,6 +240,7 @@ export default function CheckoutPage() {
                           onChange={handleInputChange}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                         />
+                        {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -225,6 +254,7 @@ export default function CheckoutPage() {
                           onChange={handleInputChange}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                         />
+                        {errors.postalCode && <p className="text-red-500 text-sm mt-1">{errors.postalCode}</p>}
                       </div>
                     </div>
 
@@ -240,11 +270,12 @@ export default function CheckoutPage() {
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                       />
+                      {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                     </div>
 
                     <button
                       type="button"
-                      onClick={() => setStep(2)}
+                      onClick={handleContinue}
                       className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       Tiếp tục đến thanh toán

@@ -19,6 +19,7 @@ import ForgotPasswordPage from '../pages/authentication/ForgotPasswordPage';
 import VerifyOTPPage from '../pages/authentication/VerifyOTPPage';
 import ResetPasswordPage from '../pages/authentication/ResetPasswordPage';
 import { AdminPage } from '../pages/admin/AdminPage';
+import UserProfilePage from '../pages/users/UserProfilePage';
 
 
 export default function MainRouter() {
@@ -48,6 +49,13 @@ export default function MainRouter() {
         <Route path="/user" element={
           <ProtectedRoute requiredRole="user">
             <HomePage />
+          </ProtectedRoute>
+        } />
+        <Route path="/user/profile" element={
+          <ProtectedRoute requiredRole="user">
+            <Layout>
+              <UserProfilePage />
+            </Layout>
           </ProtectedRoute>
         } />
 

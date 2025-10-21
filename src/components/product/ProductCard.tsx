@@ -22,7 +22,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     addItem(product);
   };
   return (
-    <div className="w-64 bg-white rounded-xl shadow-md overflow-hidden p-4 flex flex-col items-start gap-3">
+    <div className="w-full bg-white rounded-xl shadow-md overflow-hidden p-5 flex flex-col items-start gap-4">
       <div className="w-full flex items-center justify-center">
         <div className="w-28 h-28 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
           <img

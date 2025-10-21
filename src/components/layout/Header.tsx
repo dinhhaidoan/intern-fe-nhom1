@@ -76,11 +76,11 @@ export default function Header() {
                   Xin chào, {user?.name}
                 </span>
                 <Link
-                  to={user?.role === 'admin' ? '/admin' : '/user'}
+                  to={user?.role === 'admin' ? '/admin' : '/user/profile'}
                   className="text-gray-700 hover:text-blue-600 p-2 rounded-md transition-colors"
-                  title="Dashboard"
+                  title="Thông tin cá nhân"
                 >
-                  <FiSettings size={20} />
+                  <FiSettings size={20} />  
                 </Link>
                 <button
                   onClick={handleLogout}
@@ -161,7 +161,7 @@ export default function Header() {
                   <div className="border-t border-gray-200 pt-3 mt-3">
                     <p className="text-gray-500 text-sm px-3 mb-2">Xin chào, {user?.name}</p>
                     <Link
-                      to={user?.role === 'admin' ? '/admin' : '/user'}
+                      to={user?.role === 'admin' ? '/admin' : '/user/profile'}
                       className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >

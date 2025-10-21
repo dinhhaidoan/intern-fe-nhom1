@@ -1,4 +1,3 @@
-// components/common/ConfirmModal.tsx
 import { memo } from 'react';
 import { Modal } from './Modal';
 
@@ -11,6 +10,7 @@ interface ConfirmModalProps {
   confirmText?: string;
   cancelText?: string;
   type?: 'danger' | 'warning' | 'info';
+  backdrop?: boolean;
 }
 
 export const ConfirmModal = memo<ConfirmModalProps>(({
@@ -22,6 +22,7 @@ export const ConfirmModal = memo<ConfirmModalProps>(({
   confirmText = 'Xác nhận',
   cancelText = 'Hủy',
   type = 'danger'
+  , backdrop
 }) => {
   const handleConfirm = () => {
     onConfirm();
@@ -35,7 +36,7 @@ export const ConfirmModal = memo<ConfirmModalProps>(({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={title} size="sm">
+    <Modal isOpen={isOpen} onClose={onClose} title={title} size="sm" backdrop={backdrop ?? true}>
       <div className="space-y-4">
         <p className="text-sm text-gray-600 dark:text-gray-400">{message}</p>
         
