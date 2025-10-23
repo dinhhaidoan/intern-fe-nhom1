@@ -3,8 +3,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useAdminStore } from '../../stores/adminStore';
 import { AdminPermissionModal } from '../../components/admin/AdminPermissionModal';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import type { User } from '../../types';
 
 export const AdminPermissions: React.FC = () => {
@@ -204,18 +203,7 @@ export const AdminPermissions: React.FC = () => {
           type="danger"
         />
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      
     </>
   );
 };

@@ -29,7 +29,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   editingProduct,
 }) => {
   const { categories } = useAdminStore();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ProductFormData>({
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm<ProductFormData>({
     defaultValues: editingProduct 
       ? {
           code: editingProduct.code || '',
@@ -51,6 +51,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         }
   });
 
+  // Local preview state for uploaded image
+  const [preview, setPreview] = React.useState<string>('');
+
+  // Watch image field so we can keep preview in sync when url is typed
+  const watchedImage = watch('image');
+
+  React.useEffect(() => {
+    if (!watchedImage) return;
+    // If the image is a data URL or remote URL, use it for preview
+    setPreview(watchedImage);
+  }, [watchedImage]);
+
   // Lọc danh mục active
   const activeCategories = categories.filter(cat => cat.status === 'active');
 
@@ -65,6 +77,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         description: editingProduct.description,
         image: editingProduct.image,
       });
+      // initialize preview from editing product image
+      setPreview(editingProduct.image || '');
     } else {
       reset({
         code: '',
@@ -75,6 +89,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         description: '',
         image: ''
       });
+      setPreview('');
     }
   }, [editingProduct, reset]);
 
@@ -88,6 +103,25 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     };
     onSubmit(productData as any);
     reset();
+    setPreview('');
+  };
+
+  // Handle file input change: convert to data URL and set form's image field
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      setPreview(result);
+      setValue('image', result, { shouldDirty: true });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemovePreview = () => {
+    setPreview('');
+    setValue('image', '');
   };
 
   return (
@@ -197,11 +231,34 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             URL Hình ảnh
           </label>
-          <input
-            {...register('image')}
-            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            placeholder="Nhập URL hình ảnh"
-          />
+          <div className="flex gap-3 items-start">
+            <input
+              {...register('image')}
+              className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              placeholder="Nhập URL hình ảnh"
+            />
+
+            {/* File upload input */}
+            <div className="flex flex-col items-center gap-2">
+              <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-2 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-xs text-gray-700 dark:text-gray-200">
+                Tải lên
+                <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+              </label>
+              {preview ? (
+                <div className="relative w-20 h-20 rounded overflow-hidden border border-gray-200 dark:border-gray-600">
+                  <img src={preview} alt="preview" className="w-full h-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={handleRemovePreview}
+                    aria-label="Xóa ảnh"
+                    className="absolute -top-2 -right-2 bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs shadow-lg"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          </div>
         </div>
 
         <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-600">

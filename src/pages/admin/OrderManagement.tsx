@@ -7,8 +7,6 @@ import { OrderDetailModal } from '../../components/admin/OrderDetailModal';
 import type { Order } from '../../types';
 import { toast } from 'react-toastify';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export const OrderManagement: React.FC = () => {
   const { 
@@ -225,18 +223,7 @@ export const OrderManagement: React.FC = () => {
         confirmText="Xóa"
         type="danger"
       />
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      
     </>
   );
 };

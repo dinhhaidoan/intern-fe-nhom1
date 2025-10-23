@@ -5,8 +5,7 @@ import { CategoryTable } from '../../components/admin/CategoryTable';
 import { CategoryFormModal } from '../../components/admin/CategoryFormModal';
 import { FilterBar } from '../../components/common/FilterBar';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import type { Category } from '../../types';
 
 export const CategoryManagement: React.FC = () => {
@@ -192,18 +191,7 @@ export const CategoryManagement: React.FC = () => {
           type="danger"
         />
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      
     </>
   );
 };

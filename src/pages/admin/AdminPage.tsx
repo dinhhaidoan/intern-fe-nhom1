@@ -1,8 +1,6 @@
 // pages/admin/AdminPage.tsx 
 import React, { useEffect } from 'react';
 import { useAdminStore } from '../../stores/adminStore';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { AdminLayout } from '../../components/admin/AdminLayout';
 import { Dashboard } from './Dashboard';
 import { UserManagement } from './UserManagement';
@@ -76,18 +74,6 @@ export const AdminPage: React.FC = () => {
         {renderContent()}
       </AdminLayout>
       
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </>
   );
 };
