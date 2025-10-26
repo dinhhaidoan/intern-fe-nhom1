@@ -5,8 +5,7 @@ import { ProductTable } from '../../components/admin/ProductTable';
 import { ProductFormModal } from '../../components/admin/ProductFormModal';
 import { FilterBar } from '../../components/common/FilterBar';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import type { Product } from '../../types';
 
 export const ProductManagement: React.FC = () => {
@@ -206,18 +205,7 @@ export const ProductManagement: React.FC = () => {
           type="danger"
         />
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />  
+      
     </>
   );
 };

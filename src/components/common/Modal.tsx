@@ -28,8 +28,8 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div 
-      className={`fixed inset-0 flex items-center justify-center z-50 p-4 ${backdrop ? 'bg-black bg-opacity-50' : ''}`}
+    <div
+      className={`fixed inset-0 flex items-center justify-center z-50 p-4 ${backdrop ? 'bg-black/50' : ''}`}
       onClick={onClose}
     >
       <div 
