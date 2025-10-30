@@ -3,11 +3,8 @@ import { create } from 'zustand';
 import type { User, Product, Order, Category, Review, ShippingUnit } from '../types';
 
 interface AdminState {
-  // Admin hiện tại
-  currentUser: User | null;
-  setCurrentUser: (user: User | null) => void;
-  
   // State
+  currentUser: User | null;
   selectedTab: string;
   searchQuery: string;
   users: User[];
@@ -19,44 +16,57 @@ interface AdminState {
   shippingUnits: ShippingUnit[];
   
   // Actions
+  setCurrentUser: (user: User | null) => void;
   setSelectedTab: (tab: string) => void;
   setSearchQuery: (query: string) => void;
-  
-  // Users (không có admin)
   setUsers: (users: User[]) => void;
-  addUser: (user: User) => void;
-  updateUser: (id: string, user: Partial<User>) => void;
-  deleteUser: (id: string) => void;
-  toggleUserStatus: (id: string) => void;
-  
-  // Admins
   setAdmins: (admins: User[]) => void;
-  addAdmin: (admin: User) => void;
-  updateAdmin: (id: string, admin: Partial<User>) => void;
-  deleteAdmin: (id: string) => void;
-  toggleAdminStatus: (id: string) => void;
-  
-  // Products
   setProducts: (products: Product[]) => void;
-  addProduct: (product: Product) => void;
-  updateProduct: (id: string, product: Partial<Product>) => void;
-  deleteProduct: (id: string) => void;
-  
-  // Orders
   setOrders: (orders: Order[]) => void;
-  updateOrderStatus: (id: string, status: Order['status']) => void;
-  deleteOrder: (id: string) => void;
-  
-  // Categories
   setCategories: (categories: Category[]) => void;
-  addCategory: (category: Category) => void;
-  updateCategory: (id: string, category: Partial<Category>) => void;
-  deleteCategory: (id: string) => void;
-  toggleCategoryStatus: (id: string) => void;
-  updateCategoryProductCount: () => void;
   setReviews: (reviews: Review[]) => void;
   setShippingUnits: (units: ShippingUnit[]) => void;
+  
+  addUser: (user: User) => void;
+  addAdmin: (admin: User) => void;
+  addProduct: (product: Product) => void;
+  addCategory: (category: Category) => void;
+  
+  updateUser: (id: string, user: Partial<User>) => void;
+  updateAdmin: (id: string, admin: Partial<User>) => void;
+  updateProduct: (id: string, product: Partial<Product>) => void;
+  updateCategory: (id: string, category: Partial<Category>) => void;
+  updateOrderStatus: (id: string, status: Order['status']) => void;
+  
+  deleteUser: (id: string) => void;
+  deleteAdmin: (id: string) => void;
+  deleteProduct: (id: string) => void;
+  deleteOrder: (id: string) => void;
+  deleteCategory: (id: string) => void;
+  
+  toggleUserStatus: (id: string) => void;
+  toggleAdminStatus: (id: string) => void;
+  toggleCategoryStatus: (id: string) => void;
+  
+  updateCategoryProductCount: () => void;
 }
+
+// Helper function để toggle status
+const toggleStatus = <T extends { status: 'active' | 'inactive' }>(item: T): T => ({
+  ...item,
+  status: item.status === 'active' ? 'inactive' : 'active'
+});
+
+// Helper function để update item trong array
+const updateItem = <T extends { id: string }>(
+  items: T[],
+  id: string,
+  updates: Partial<T>
+): T[] => items.map(item => item.id === id ? { ...item, ...updates } : item);
+
+// Helper function để delete item
+const deleteItem = <T extends { id: string }>(items: T[], id: string): T[] =>
+  items.filter(item => item.id !== id);
 
 export const useAdminStore = create<AdminState>((set, get) => ({
   // Initial state
@@ -71,145 +81,95 @@ export const useAdminStore = create<AdminState>((set, get) => ({
   reviews: [],
   shippingUnits: [],
 
-  // Current user
+  // Simple setters
   setCurrentUser: (user) => set({ currentUser: user }),
-
-  // Actions
   setSelectedTab: (tab) => set({ selectedTab: tab }),
   setSearchQuery: (query) => set({ searchQuery: query }),
-  
-  // Users
   setUsers: (users) => set({ users }),
-  
-  addUser: (user) => set((state) => ({ 
-    users: [...state.users, user] 
-  })),
-  
-  updateUser: (id, updatedUser) => set((state) => ({
-    users: state.users.map(user => 
-      user.id === id ? { ...user, ...updatedUser } : user
-    )
-  })),
-  
-  deleteUser: (id) => set((state) => ({
-    users: state.users.filter(user => user.id !== id)
-  })),
-  
-  toggleUserStatus: (id) => set((state) => ({
-    users: state.users.map(user => 
-      user.id === id 
-        ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' } 
-        : user
-    )
-  })),
-  
-  // Admins
   setAdmins: (admins) => set({ admins }),
+  setOrders: (orders) => set({ orders }),
+  setCategories: (categories) => set({ categories }),
+  setReviews: (reviews) => set({ reviews }),
+  setShippingUnits: (units) => set({ shippingUnits: units }),
   
-  addAdmin: (admin) => set((state) => ({ 
-    admins: [...state.admins, admin] 
-  })),
-  
-  updateAdmin: (id, updatedAdmin) => set((state) => ({
-    admins: state.admins.map(admin => 
-      admin.id === id ? { ...admin, ...updatedAdmin } : admin
-    ),
-    // Nếu update admin hiện tại
-    currentUser: state.currentUser?.id === id 
-      ? { ...state.currentUser, ...updatedAdmin }
-      : state.currentUser
-  })),
-  
-  deleteAdmin: (id) => set((state) => ({
-    admins: state.admins.filter(admin => admin.id !== id)
-  })),
-  
-  toggleAdminStatus: (id) => set((state) => ({
-    admins: state.admins.map(admin => 
-      admin.id === id 
-        ? { ...admin, status: admin.status === 'active' ? 'inactive' : 'active' } 
-        : admin
-    )
-  })),
-  
-  // Products
+  // Products với auto-update category count
   setProducts: (products) => {
     set({ products });
     get().updateCategoryProductCount();
   },
+  
+  // Add actions
+  addUser: (user) => set((state) => ({ users: [...state.users, user] })),
+  addAdmin: (admin) => set((state) => ({ admins: [...state.admins, admin] })),
   
   addProduct: (product) => {
     set((state) => ({ products: [...state.products, product] }));
     get().updateCategoryProductCount();
   },
   
-  updateProduct: (id, updatedProduct) => {
-    set((state) => ({
-      products: state.products.map(product => 
-        product.id === id ? { ...product, ...updatedProduct } : product
-      )
-    }));
-    get().updateCategoryProductCount();
-  },
-  
-  deleteProduct: (id) => {
-    set((state) => ({
-      products: state.products.filter(product => product.id !== id)
-    }));
-    get().updateCategoryProductCount();
-  },
-  
-  // Orders
-  setOrders: (orders) => set({ orders }),
-  
-  updateOrderStatus: (id, status) => set((state) => ({
-    orders: state.orders.map(order => 
-      order.id === id ? { ...order, status } : order
-    )
-  })),
-  
-  deleteOrder: (id) => set((state) => ({
-    orders: state.orders.filter(order => order.id !== id)
-  })),
-  
-  // Categories
-  setCategories: (categories) => set({ categories }),
-
-  setReviews: (reviews) => set({ reviews }),
-  setShippingUnits: (units) => set({ shippingUnits: units }),
-  
   addCategory: (category) => set((state) => ({ 
     categories: [...state.categories, category] 
   })),
   
-  updateCategory: (id, updatedCategory) => set((state) => ({
-    categories: state.categories.map(category => 
-      category.id === id ? { ...category, ...updatedCategory } : category
-    )
+  // Update actions
+  updateUser: (id, updates) => set((state) => ({
+    users: updateItem(state.users, id, updates)
   })),
   
-  deleteCategory: (id) => set((state) => ({
-    categories: state.categories.filter(category => category.id !== id)
+  updateAdmin: (id, updates) => set((state) => ({
+    admins: updateItem(state.admins, id, updates),
+    currentUser: state.currentUser?.id === id 
+      ? { ...state.currentUser, ...updates }
+      : state.currentUser
+  })),
+  
+  updateProduct: (id, updates) => {
+    set((state) => ({ products: updateItem(state.products, id, updates) }));
+    get().updateCategoryProductCount();
+  },
+  
+  updateCategory: (id, updates) => set((state) => ({
+    categories: updateItem(state.categories, id, updates)
+  })),
+  
+  updateOrderStatus: (id, status) => set((state) => ({
+    orders: updateItem(state.orders, id, { status })
+  })),
+  
+  // Delete actions
+  deleteUser: (id) => set((state) => ({ users: deleteItem(state.users, id) })),
+  deleteAdmin: (id) => set((state) => ({ admins: deleteItem(state.admins, id) })),
+  deleteOrder: (id) => set((state) => ({ orders: deleteItem(state.orders, id) })),
+  deleteCategory: (id) => set((state) => ({ categories: deleteItem(state.categories, id) })),
+  
+  deleteProduct: (id) => {
+    set((state) => ({ products: deleteItem(state.products, id) }));
+    get().updateCategoryProductCount();
+  },
+  
+  // Toggle status actions
+  toggleUserStatus: (id) => set((state) => ({
+    users: state.users.map(user => user.id === id ? toggleStatus(user) : user)
+  })),
+  
+  toggleAdminStatus: (id) => set((state) => ({
+    admins: state.admins.map(admin => admin.id === id ? toggleStatus(admin) : admin)
   })),
   
   toggleCategoryStatus: (id) => set((state) => ({
-    categories: state.categories.map(category => 
-      category.id === id 
-        ? { ...category, status: category.status === 'active' ? 'inactive' : 'active' } 
-        : category
-    )
+    categories: state.categories.map(cat => cat.id === id ? toggleStatus(cat) : cat)
   })),
   
-  // Cập nhật số lượng sản phẩm cho mỗi danh mục
+  // Update category product count
   updateCategoryProductCount: () => {
     const { products, categories } = get();
     
-    const counts: Record<string, number> = {};
-    products.forEach(product => {
+    const counts = products.reduce((acc, product) => {
       if (product.categoryId) {
-        counts[product.categoryId] = (counts[product.categoryId] || 0) + 1;
+        acc[product.categoryId] = (acc[product.categoryId] || 0) + 1;
       }
-    });
+      return acc;
+    }, {} as Record<string, number>);
     
     set({
       categories: categories.map(category => ({
